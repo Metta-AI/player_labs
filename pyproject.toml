@@ -3,7 +3,7 @@ name = "player-labs"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "coworld[auth]>=0.1.20",
+    "coworld[auth]>=0.1.39",
     "httpx>=0.28.1",
     # The shared player SDK that vendored players import as `players.player_sdk`,
     # plus its base deps (anthropic, etc.). Installed straight from the public
