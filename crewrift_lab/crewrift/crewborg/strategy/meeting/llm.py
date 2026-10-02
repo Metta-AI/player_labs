@@ -42,6 +42,7 @@ class MeetingLLMConfig:
     temperature: float = 0.2
     timeout_seconds: float = 3.0
     trace_raw: bool = False
+    sidecar_endpoint: str = ""
 
 
 class MeetingLLMResult(BaseModel):
@@ -87,7 +88,10 @@ class AnthropicMeetingClient:
             return
         from anthropic import Anthropic
 
-        self._client = Anthropic(timeout=config.timeout_seconds)
+        self._client = (
+            Anthropic(base_url=config.sidecar_endpoint, api_key="coworld-sidecar", timeout=config.timeout_seconds, max_retries=0)
+            if config.sidecar_endpoint else Anthropic(timeout=config.timeout_seconds)
+        )
 
     def decide(self, context: dict[str, Any], *, trigger: str) -> MeetingLLMResult:
         request = {
@@ -107,7 +111,7 @@ class AnthropicMeetingClient:
         response = self._client.messages.create(
             model=self.config.model,
             max_tokens=self.config.max_tokens,
-            temperature=self.config.temperature,
+            extra_body={"temperature": self.config.temperature},
             system=SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_content}],
         )
@@ -126,14 +130,16 @@ class AnthropicMeetingClient:
 
 def build_meeting_llm_client_from_env(env: dict[str, str] | None = None) -> MeetingLLMClient:
     env = env or os.environ
-    if env.get("CREWBORG_LLM_MEETINGS", "").strip().lower() not in {"1", "true", "yes", "on"}:
+    if not env.get("COWORLD_LLM_ENDPOINT") and env.get("CREWBORG_LLM_MEETINGS", "").strip().lower() not in {"1", "true", "yes", "on"}:
         return DisabledMeetingClient("CREWBORG_LLM_MEETINGS is not enabled")
-    if not env.get("ANTHROPIC_API_KEY"):
+    if not (env.get("COWORLD_LLM_ENDPOINT") or env.get("ANTHROPIC_API_KEY")):
         return DisabledMeetingClient("ANTHROPIC_API_KEY is not set")
     trace_raw = env.get("CREWBORG_LLM_TRACE_RAW", "").strip().lower() in {"1", "true", "yes", "on"}
     trace_raw = trace_raw or env.get("CREWBORG_TRACE", "").strip().lower() == "debug"
     config = MeetingLLMConfig(
-        model=env.get("CREWBORG_LLM_MODEL", DEFAULT_MEETING_MODEL),
+        model=(env.get("COWORLD_LLM_MODEL", "anthropic/claude-haiku-4.5") if env.get("COWORLD_LLM_ENDPOINT")
+               else env.get("CREWBORG_LLM_MODEL", DEFAULT_MEETING_MODEL)),
+        sidecar_endpoint=env.get("COWORLD_LLM_ENDPOINT", ""),
         max_tokens=_env_int(env, "CREWBORG_LLM_MAX_TOKENS", 512),
         temperature=_env_float(env, "CREWBORG_LLM_TEMPERATURE", 0.2),
         timeout_seconds=_env_float(env, "CREWBORG_LLM_TIMEOUT_SECONDS", 3.0),

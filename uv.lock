@@ -288,7 +288,7 @@ wheels = [
 
 [[package]]
 name = "coworld"
-version = "0.1.39"
+version = "0.1.56"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
@@ -297,17 +297,19 @@ dependencies = [
     { name = "packaging" },
     { name = "pyarrow" },
     { name = "pydantic" },
+    { name = "pydantic-core" },
     { name = "pyyaml" },
     { name = "referencing" },
     { name = "requests" },
     { name = "rich" },
     { name = "softmax-cli" },
+    { name = "tenacity" },
     { name = "typer" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/29/75/3ff287a3865fffef043bd63e39f96182fceb7eff227a09ffe6ab07576bac/coworld-0.1.39.tar.gz", hash = "sha256:c3b984eb6c6d0b82432a108c27e814f0b0c5b8fbf46c231d13776a7d8dae2f88", size = 1962696, upload-time = "2026-08-17T19:15:58.429Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/84/da/090c6a89bf734e17ff9f939018695800959a9f637ed9c0b9134d32828d8f/coworld-0.1.56.tar.gz", hash = "sha256:e11379ce5b9f06846203240a8d1a195859abf9b6b33bc03d7b7f44af555af8b4", size = 2159797, upload-time = "2026-10-01T19:05:54.147Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d4/83/ab2528eb2b29a658f36ff1e8f4b69b74a1c27a956ab68df6b5e97be2dd6b/coworld-0.1.39-py3-none-any.whl", hash = "sha256:d268c2e138d9f3c2e7f710d008dc21ca7d746c70f52c68480ebc007422fd039e", size = 352585, upload-time = "2026-08-17T19:15:56.572Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/16/6585fb49ba3a0b563eadba59d03ee7d8f556320ff88636596d41d559cedc/coworld-0.1.56-py3-none-any.whl", hash = "sha256:28beb4c49f22694eef0325dae1adef5d31ed4af3b5759a571e8f3ae01dc9d668", size = 480883, upload-time = "2026-10-01T19:05:52.129Z" },
 ]
 
 [package.optional-dependencies]
@@ -921,7 +923,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "coworld", extras = ["auth"], specifier = ">=0.1.39" },
+    { name = "coworld", extras = ["auth"], specifier = "==0.1.56" },
     { name = "cramjam", specifier = ">=2.8.0" },
     { name = "httpx", specifier = ">=0.28.1" },
     { name = "numpy", specifier = ">=2.0.0" },
@@ -1488,7 +1490,7 @@ wheels = [
 
 [[package]]
 name = "softmax-cli"
-version = "0.26.30"
+version = "0.26.38"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "fastapi" },
@@ -1499,9 +1501,9 @@ dependencies = [
     { name = "typer" },
     { name = "uvicorn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/45/31/fb05931edb31bf56492723dd73a3d3c34127536441cdde9a393c883d062b/softmax_cli-0.26.30.tar.gz", hash = "sha256:d8be16d36eb69b182c61b02c9f79f6c3b66b2043e134f43602764f297f02c809", size = 18869, upload-time = "2026-08-17T19:13:38.686Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/24/4c/a5bd4428f631ee1f04599bba80c8eb5a5a7f79e21c1c4829c09ff92fa9e0/softmax_cli-0.26.38.tar.gz", hash = "sha256:f8b47330c5b3a9dacebfa85b48302936f4447752626e49966e256d4a83edb965", size = 52709, upload-time = "2026-09-17T18:11:31.368Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e4/3b/023d2d07ee6280fa3c12168b1bb3c465a9d8bbe784fd17aad1349368c050/softmax_cli-0.26.30-py3-none-any.whl", hash = "sha256:a8336257b38f2662ba7a044db5c3d19b215aa681eb09aea6b0b183bc7fd5a52a", size = 15105, upload-time = "2026-08-17T19:13:37.426Z" },
+    { url = "https://files.pythonhosted.org/packages/ed/81/ddc4c86add539b3d8e61776a8c453e2ff27d5a3c6d1e4a4cf0a0948920bc/softmax_cli-0.26.38-py3-none-any.whl", hash = "sha256:5c413e0019f6df06a4aa298c9ae04056613d01cad9439cf4476f7ce7477ac861", size = 38716, upload-time = "2026-09-17T18:11:30.002Z" },
 ]
 
 [[package]]
@@ -1515,6 +1517,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/25/44/ec35f1b6e83094b997da438a02c8c9b0ade2b1e84cfc48bd4656780760a6/starlette-1.2.1.tar.gz", hash = "sha256:9b9b5ebb992e67d6093741e63c2f59e4f6fff986f81163c087867bd7b924b3f6", size = 2701854, upload-time = "2026-05-31T01:07:51.847Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1c/54/196d0c1db10af76baa4f64894448505d60d3cdf70ef92cbb35f46a4e4c71/starlette-1.2.1-py3-none-any.whl", hash = "sha256:4de0082d08c8f6764a85a54cf1120d6939507a19905c7768acad2a9f875d2b89", size = 73350, upload-time = "2026-05-31T01:07:50.09Z" },
+]
+
+[[package]]
+name = "tenacity"
+version = "9.1.4"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/c6/ee486fd809e357697ee8a44d3d69222b344920433d3b6666ccd9b374630c/tenacity-9.1.4.tar.gz", hash = "sha256:adb31d4c263f2bd041081ab33b498309a57c77f9acf2db65aadf0898179cf93a", size = 49413, upload-time = "2026-02-07T10:45:33.841Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d7/c1/eb8f9debc45d3b7918a32ab756658a0904732f75e555402972246b0b8e71/tenacity-9.1.4-py3-none-any.whl", hash = "sha256:6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55", size = 28926, upload-time = "2026-02-07T10:45:32.24Z" },
 ]
 
 [[package]]

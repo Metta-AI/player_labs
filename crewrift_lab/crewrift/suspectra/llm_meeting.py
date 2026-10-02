@@ -24,13 +24,17 @@ def decide(context: dict[str, Any]) -> dict[str, Any]:
     if not _enabled():
         return _fallback("llm disabled")
     use_bedrock = _flag("USE_BEDROCK") or _flag("CLAUDE_CODE_USE_BEDROCK")
-    if not use_bedrock and not os.environ.get("ANTHROPIC_API_KEY"):
+    endpoint = os.environ.get("COWORLD_LLM_ENDPOINT")
+    if not endpoint and not use_bedrock and not os.environ.get("ANTHROPIC_API_KEY"):
         return _fallback("ANTHROPIC_API_KEY is not set")
 
     from anthropic import Anthropic, AnthropicBedrock
 
     timeout = float(os.environ.get("SUSPECTRA_LLM_TIMEOUT_SECONDS", str(DEFAULT_TIMEOUT_SECONDS)))
-    if use_bedrock:
+    if endpoint:
+        client = Anthropic(base_url=endpoint, api_key="coworld-sidecar", timeout=timeout, max_retries=0)
+        model = os.environ.get("COWORLD_LLM_MODEL", "anthropic/claude-haiku-4.5")
+    elif use_bedrock:
         client = AnthropicBedrock(
             aws_access_key=os.environ.get("AWS_ACCESS_KEY_ID"),
             aws_secret_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
@@ -52,7 +56,7 @@ def decide(context: dict[str, Any]) -> dict[str, Any]:
     response = client.messages.create(
         model=model,
         max_tokens=int(os.environ.get("SUSPECTRA_LLM_MAX_TOKENS", str(DEFAULT_MAX_TOKENS))),
-        temperature=float(os.environ.get("SUSPECTRA_LLM_TEMPERATURE", str(DEFAULT_TEMPERATURE))),
+        extra_body={"temperature": float(os.environ.get("SUSPECTRA_LLM_TEMPERATURE", str(DEFAULT_TEMPERATURE)))},
         system=_system_prompt(),
         messages=[
             {
@@ -80,7 +84,8 @@ def decide(context: dict[str, Any]) -> dict[str, Any]:
 
 def _enabled() -> bool:
     return (
-        _flag("SUSPECTRA_LLM_MEETINGS")
+        bool(os.environ.get("COWORLD_LLM_ENDPOINT"))
+        or _flag("SUSPECTRA_LLM_MEETINGS")
         or _flag("USE_BEDROCK")
         or _flag("CLAUDE_CODE_USE_BEDROCK")
     )
