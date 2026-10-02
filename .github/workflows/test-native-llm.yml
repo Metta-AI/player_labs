@@ -1,0 +1,10 @@
+name: Native meeting inference
+on: [pull_request, push]
+jobs:
+  native-meetings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv sync --frozen
+      - run: uv run pytest crewrift_lab/crewrift/crewborg/tests crewrift_lab/crewrift/suspectra/tests -q
