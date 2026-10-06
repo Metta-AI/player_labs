@@ -24,8 +24,8 @@ direction.
 1. **Evaluate** (you) — run experiments via **experience requests**
    (`coworld-experience-requests` skill) against the current uploaded version and
    measure how it performs. Experience requests are the **primary** eval instrument:
-   they run many episodes in parallel on Softmax infra, are currently free, and are
-   **not scarce** — use them liberally, but **target them to the question** (matched
+   they run many episodes in parallel on Softmax infra. Check current quotas,
+   pricing, and the agreed budget before scaling; **target them to the question** (matched
    roles when the last change was role-specific; the specific opponents the policy
    struggles against). Turn on heavy tracing for the policy if it has it.
 2. **Report** (you → human) — pull the replays / logs / results those experiments
@@ -95,7 +95,7 @@ Lab-wide, game-agnostic Coworld tooling lives in `.claude/skills/`:
   *not* a comparative matchup). `scripts/smoke.py`. (Loop step 5.)
 - **`coworld-policy-lifecycle`** — **upload** a built image as a new version → (gated)
   **submit** to a league → **monitor** standings, with version-log discipline. Upload
-  is routine/inert; submit is the irreversible champion-making action.
+  is routine/inert; submit changes league participation and may replace the champion.
   `scripts/policy_lifecycle.py` does `versions` / `monitor`. (Loop steps 5–8.)
 
 These cover the lab-wide, mechanical halves of the loop. **Game-specific skills/tools
