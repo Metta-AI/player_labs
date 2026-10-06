@@ -229,7 +229,7 @@ Crewborg's contract. Two repos matter:
 
 - **Game source (Nim):** the `Metta-AI/coworld-crewrift` repo — the authoritative
   rules, protocol docs, reference bots, map assets. Read this for behavior.
-- **Coworld platform docs:** `Metta-AI/metta`: `packages/coworld` *(**read-only**
+- **Coworld platform docs:** `Metta-AI/coworld`: `src/coworld` *(**read-only**
   reference — never write there)* — the generic Coworld
   packaging/runner/CLI contract Crewrift conforms to.
 
@@ -514,14 +514,14 @@ rather than pixel parity). Develop/run/test workflows live in the
 | Crewrift rules / mechanics | `Metta-AI/coworld-crewrift`: `README.md`, `docs/rules.md`, `src/crewrift/sim.nim` |
 | Crewrift wire protocol | `Metta-AI/coworld-crewrift`: `docs/sprite_v1.md` |
 | Crewrift reference bots + guides | `Metta-AI/coworld-crewrift`: `players/` |
-| Coworld platform/runner contract | `Metta-AI/metta`: `packages/coworld/src/coworld/docs/README.md` + `runner/runner.py` *(read-only)* |
+| Coworld platform/runner contract | `Metta-AI/coworld`: `src/coworld/docs/README.md` + `src/coworld/runner/runner.py` *(read-only)* |
 | Crewborg trace replay viewer | `./viewer/index.html` |
 
 Repo roots:
 - Player SDK: pkg `players`, installed from the public `Metta-AI/players` repo (tracks `main`, lock-pinned) (no local checkout)
 - This crewborg fork: `crewrift_lab/crewrift/crewborg` in this repo (pkg `crewrift.crewborg`)
 - Crewrift game source: the `Metta-AI/coworld-crewrift` repo
-- Coworld platform: `Metta-AI/metta`: `packages/coworld` *(read-only reference)*
+- Coworld platform: `Metta-AI/coworld`: `src/coworld` *(read-only reference)*
 
 ## Source-of-truth & caveats
 
